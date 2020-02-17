@@ -1,6 +1,7 @@
 
 from flask import Blueprint, request, render_template, jsonify, flash, redirect #, url_for
 
+
 product_routes = Blueprint("product_routes", __name__)
 
 @product_routes.route('/products')
@@ -13,6 +14,20 @@ def new():
     print("VISITING THE NEW PRODUCT PAGE")
     print("REQUEST PARAMS:", dict(request.args))
     return render_template("products/form.html")
+
+
+
+def cocktails():
+    f = r"https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin"
+    data = request.form["Ingredient"]
+    tt = json.loads(data.text)
+
+    for i in (tt["drinks"]):
+        print(i["strDrink"], "\n")
+        url = i["strDrinkThumb"]
+        webbrowser.open(url)
+cocktails()
+
 
 @product_routes.route('/products/create', methods=["POST"])
 def create():
